@@ -1,6 +1,5 @@
 package com.github.setial.intellijjavadocs.generator.impl;
 
-import com.github.setial.intellijjavadocs.configuration.JavaDocConfiguration;
 import com.github.setial.intellijjavadocs.generator.JavaDocGenerator;
 import com.github.setial.intellijjavadocs.model.JavaDoc;
 import com.github.setial.intellijjavadocs.model.settings.JavaDocSettings;
@@ -21,7 +20,6 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +37,6 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
     private DocTemplateManager docTemplateManager;
     private DocTemplateProcessor docTemplateProcessor;
     private PsiElementFactory psiElementFactory;
-    private JavaDocConfiguration settings;
 
     /**
      * Instantiates a new Abstract java doc generator.
@@ -50,7 +47,6 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
         docTemplateManager = ServiceManager.getService(project, DocTemplateManager.class);
         docTemplateProcessor = ServiceManager.getService(project, DocTemplateProcessor.class);
         psiElementFactory = PsiElementFactory.SERVICE.getInstance(project);
-        settings = ServiceManager.getService(project, JavaDocConfiguration.class);
     }
 
     @Nullable
@@ -63,7 +59,7 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
             oldDocComment = (PsiDocComment) firstElement;
         }
 
-        JavaDocSettings configuration = settings.getConfiguration();
+        JavaDocSettings configuration = JavaDocSettings.getInstance();
         if (configuration != null) {
             Mode mode = configuration.getGeneralSettings().getMode();
             switch (mode) {
@@ -115,16 +111,6 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
     @NotNull
     protected PsiElementFactory getPsiElementFactory() {
         return psiElementFactory;
-    }
-
-    /**
-     * Gets settings.
-     *
-     * @return the settings
-     */
-    @NotNull
-    protected JavaDocConfiguration getSettings() {
-        return settings;
     }
 
     /**
@@ -183,7 +169,7 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
     }
 
     private boolean checkModifiers(PsiModifierList modifiers, String modifier, Visibility visibility) {
-        JavaDocSettings configuration = getSettings().getConfiguration();
+        JavaDocSettings configuration = JavaDocSettings.getInstance();
         return modifiers != null && modifiers.hasModifierProperty(modifier) && configuration != null &&
                 configuration.getGeneralSettings().getVisibilities().contains(visibility);
     }

@@ -34,7 +34,7 @@ public class FieldJavaDocGenerator extends AbstractJavaDocGenerator<PsiField> {
     @Nullable
     @Override
     protected JavaDoc generateJavaDoc(@NotNull PsiField element) {
-        JavaDocSettings configuration = getSettings().getConfiguration();
+        JavaDocSettings configuration = JavaDocSettings.getInstance();
         if (configuration != null && !configuration.getGeneralSettings().getLevels().contains(Level.FIELD) ||
                 !shouldGenerate(element.getModifierList())) {
             return null;

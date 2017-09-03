@@ -168,22 +168,6 @@ public class JavaDocConfigurationImpl
         configPanel = null;
     }
 
-    @Override
-    public JavaDocSettings getConfiguration()
-    {
-        JavaDocSettings result;
-        try
-        {
-            result = (JavaDocSettings) JavaDocSettings.getInstance().clone();
-        }
-        catch (Exception e)
-        {
-            // return null if cannot clone object
-            result = null;
-        }
-        return result;
-    }
-
     @Nullable
     @Override
     public Element getState()

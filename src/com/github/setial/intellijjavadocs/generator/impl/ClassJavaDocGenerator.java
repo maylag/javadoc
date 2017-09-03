@@ -31,7 +31,7 @@ public class ClassJavaDocGenerator extends AbstractJavaDocGenerator<PsiClass> {
     @Nullable
     @Override
     protected JavaDoc generateJavaDoc(@NotNull PsiClass element) {
-        JavaDocSettings configuration = getSettings().getConfiguration();
+        JavaDocSettings configuration = JavaDocSettings.getInstance();
         if ((configuration != null && !configuration.getGeneralSettings().getLevels().contains(Level.TYPE)) ||
                 !shouldGenerate(element.getModifierList())) {
             return null;

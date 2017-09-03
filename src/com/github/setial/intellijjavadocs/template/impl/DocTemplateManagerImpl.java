@@ -71,18 +71,21 @@ public class DocTemplateManagerImpl implements DocTemplateManager {
     }
 
     @Override
-    public void initComponent() {
-        try {
-            Document document = new SAXBuilder().build(DocTemplateProcessor.class.getResourceAsStream
-                    (TEMPLATES_PATH));
+    public void initComponent()
+    {
+        try
+        {
+            Document document = new SAXBuilder()
+                    .build(DocTemplateProcessor.class.getResourceAsStream
+                            (TEMPLATES_PATH));
             Element root = document.getRootElement();
-            if (root != null) {
-                readTemplates(root, CLASS, classTemplates);
-                readTemplates(root, FIELD, fieldTemplates);
-                readTemplates(root, METHOD, methodTemplates);
-                readTemplates(root, CONSTRUCTOR, constructorTemplates);
-            }
-        } catch (Exception e) {
+            readTemplates(root, CLASS, classTemplates);
+            readTemplates(root, FIELD, fieldTemplates);
+            readTemplates(root, METHOD, methodTemplates);
+            readTemplates(root, CONSTRUCTOR, constructorTemplates);
+        }
+        catch (Exception e)
+        {
             LOGGER.error(e);
         }
     }
