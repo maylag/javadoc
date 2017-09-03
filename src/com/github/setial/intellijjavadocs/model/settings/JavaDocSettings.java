@@ -13,7 +13,6 @@ import java.io.Serializable;
  */
 public class JavaDocSettings implements Serializable
 {
-
     private static final String MODE = "MODE";
 
     private static final String LEVELS = "LEVELS";
