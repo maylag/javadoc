@@ -8,6 +8,8 @@ import com.github.setial.intellijjavadocs.model.settings.Visibility;
 import com.github.setial.intellijjavadocs.template.DocTemplateManager;
 import com.github.setial.intellijjavadocs.template.DocTemplateProcessor;
 import com.github.setial.intellijjavadocs.utils.JavaDocUtils;
+import com.intellij.openapi.application.ApplicationNamesInfo;
+import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.pom.PomNamedTarget;
@@ -16,10 +18,15 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiModifier;
 import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.util.SystemProperties;
+import com.intellij.util.text.DateFormatUtil;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +39,9 @@ import java.util.Map;
  */
 public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements JavaDocGenerator<T> {
 
-    public static final String DATE_FORMAT = "dateFormat";
+    public final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    private final Project project;
 
     private DocTemplateManager docTemplateManager;
     private DocTemplateProcessor docTemplateProcessor;
@@ -44,6 +53,7 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
      * @param project the Project
      */
     public AbstractJavaDocGenerator(@NotNull Project project) {
+        this.project = project;
         docTemplateManager = ServiceManager.getService(project, DocTemplateManager.class);
         docTemplateProcessor = ServiceManager.getService(project, DocTemplateProcessor.class);
         psiElementFactory = PsiElementFactory.SERVICE.getInstance(project);
@@ -126,6 +136,15 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
                 checkModifiers(modifiers, PsiModifier.PRIVATE, Visibility.PRIVATE);
     }
 
+    private String getCalendarValue(final Calendar calendar, final int field) {
+        int val = calendar.get(field);
+        if (field == Calendar.MONTH) val++;
+        final String result = Integer.toString(val);
+        if (result.length() == 1) {
+            return "0" + result;
+        }
+        return result;
+    }
     /**
      * Gets default parameters used to build template.
      *
@@ -134,7 +153,32 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
      */
     protected Map<String, Object> getDefaultParameters(PomNamedTarget element) {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(DATE_FORMAT, "yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        SimpleDateFormat sdfMonthNameShort = new SimpleDateFormat("MMM");
+        SimpleDateFormat sdfMonthNameFull = new SimpleDateFormat("MMMM");
+        SimpleDateFormat sdfDayNameShort = new SimpleDateFormat("EEE");
+        SimpleDateFormat sdfDayNameFull = new SimpleDateFormat("EEEE");
+        SimpleDateFormat sdfYearFull = new SimpleDateFormat("yyyy");
+        // 下面这些都是intellij 内部的变量名称
+        params.put("DATE", DateFormatUtil.formatDate(date));
+        params.put("TIME", DateFormatUtil.formatTime(date));
+        params.put("YEAR", sdfYearFull.format(date));
+        params.put("MONTH", getCalendarValue(calendar, Calendar.MONTH));
+        params.put("MONTH_NAME_SHORT", sdfMonthNameShort.format(date));
+        params.put("MONTH_NAME_FULL", sdfMonthNameFull.format(date));
+        params.put("DAY", getCalendarValue(calendar, Calendar.DAY_OF_MONTH));
+        params.put("DAY_NAME_SHORT", sdfDayNameShort.format(date));
+        params.put("DAY_NAME_FULL", sdfDayNameFull.format(date));
+        params.put("HOUR", getCalendarValue(calendar, Calendar.HOUR_OF_DAY));
+        params.put("MINUTE", getCalendarValue(calendar, Calendar.MINUTE));
+        params.put("SECOND", getCalendarValue(calendar, Calendar.SECOND));
+
+        params.put("USER", SystemProperties.getUserName());
+        params.put("PRODUCT_NAME", ApplicationNamesInfo.getInstance().getFullProductName());
+        params.put("DS", "$"); // Dollar sign, strongly needed for PHP, JS, etc. See WI-8979
+        params.put("PROJECT_NAME", project.getName());
+
         params.put("element", element);
         params.put("name", getDocTemplateProcessor().buildDescription(element.getName(), true));
         params.put("partName", getDocTemplateProcessor().buildPartialDescription(element.getName()));
@@ -142,7 +186,9 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
         for (Map.Entry<String, String> variable: getDocTemplateManager().getVariables().entrySet()) {
             params.put(variable.getKey(), variable.getValue());
         }
-        params.put("now", DateFormatUtils.format(new Date(), params.get(DATE_FORMAT).toString()));
+        params.put("NOW", DateFormatUtils.format(date, DATE_FORMAT));
+        params.put("AUTHOR", SystemProperties.getUserName());
+
         return params;
     }
 
