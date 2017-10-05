@@ -11,7 +11,11 @@ import com.intellij.util.IncorrectOperationException;
  *
  * @author Sergey Timofiychuk
  */
-public class JavaDocHandler extends GenerateMembersHandlerBase {
+//public class JavaDocHandler
+//        extends EnterHandler implements
+//        CodeInsightActionHandler, ContextAwareActionHandler
+public class JavaDocHandler extends GenerateMembersHandlerBase
+{
 
     /**
      * Instantiates a new Java docs generate handler.

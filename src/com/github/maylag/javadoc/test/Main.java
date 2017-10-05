@@ -1,5 +1,6 @@
 package com.github.maylag.javadoc.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,11 @@ public class Main {
      */
     public static void main(String[] args, String a, Integer i) throws Exception, Throwable {
         System.out.println("Hello World!");
+    }
+
+    public Map<String,  Integer> aTestJavaDocumentMethod(Map<List<Long>, Throwable> eMap, ArrayList<String> arrayList)
+    {
+        return null;
     }
 
     /**

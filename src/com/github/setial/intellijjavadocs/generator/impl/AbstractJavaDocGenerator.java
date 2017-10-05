@@ -39,7 +39,11 @@ import java.util.Map;
  */
 public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements JavaDocGenerator<T> {
 
-    public final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    private final String VERSION = "VERSION";
+
+    private final String BASE_VERSION = "BASE_VERSION";
 
     private final Project project;
 
@@ -183,11 +187,19 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
         params.put("name", getDocTemplateProcessor().buildDescription(element.getName(), true));
         params.put("partName", getDocTemplateProcessor().buildPartialDescription(element.getName()));
         params.put("splitNames", StringUtils.splitByCharacterTypeCamelCase(element.getName()));
-        for (Map.Entry<String, String> variable: getDocTemplateManager().getVariables().entrySet()) {
-            params.put(variable.getKey(), variable.getValue());
-        }
+
         params.put("NOW", DateFormatUtils.format(date, DATE_FORMAT));
         params.put("AUTHOR", SystemProperties.getUserName());
+
+        // 处理变量
+        for (Map.Entry<String, String> variable : getDocTemplateManager().getVariables().entrySet()) {
+            params.put(variable.getKey(),variable.getValue());
+        }
+        // 处理version
+        String version = (String) params.get(VERSION);
+        params.put(VERSION, StringUtils.isEmpty(version) ? "1.0" : version);
+        String baseVersion = (String) params.get(BASE_VERSION);
+        params.put(BASE_VERSION, StringUtils.isEmpty(baseVersion) ? params.get(VERSION) : baseVersion);
 
         return params;
     }
