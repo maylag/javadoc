@@ -8,7 +8,7 @@ import com.github.setial.intellijjavadocs.generator.impl.MethodJavaDocGenerator;
 import com.github.setial.intellijjavadocs.operation.JavaDocWriter;
 import com.intellij.codeInsight.CodeInsightActionHandler;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
@@ -72,7 +72,7 @@ public class JavaDocGenerateAction extends BaseAction {
             return;
         }
 
-        Editor editor = DataKeys.EDITOR.getData(e.getDataContext());
+        Editor editor = e.getData(LangDataKeys.EDITOR);
         if (editor == null) {
             LOGGER.error("Cannot get com.intellij.openapi.editor.Editor");
             Messages.showErrorDialog("Javadocs plugin is not available", "Javadocs plugin");
@@ -80,13 +80,13 @@ public class JavaDocGenerateAction extends BaseAction {
         }
         int startPosition = editor.getSelectionModel().getSelectionStart();
         int endPosition = editor.getSelectionModel().getSelectionEnd();
-        PsiFile file = DataKeys.PSI_FILE.getData(e.getDataContext());
+        PsiFile file = e.getData(LangDataKeys.PSI_FILE);
         if (file == null) {
             LOGGER.error("Cannot get com.intellij.psi.PsiFile");
             Messages.showErrorDialog("Javadocs plugin is not available", "Javadocs plugin");
             return;
         }
-        List<PsiElement> elements = new LinkedList<PsiElement>();
+        List<PsiElement> elements = new LinkedList<>();
         PsiElement element = getJavaElement(PsiUtilCore.getElementAtOffset(file, startPosition));
         do {
             if (isAllowedElementType(element)) {

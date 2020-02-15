@@ -4,7 +4,7 @@ import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
@@ -55,7 +55,7 @@ public class JavaDocsGenerateAction extends JavaDocGenerateAction implements Dum
             return;
         }
 
-        final PsiFile file = DataKeys.PSI_FILE.getData(e.getDataContext());
+        final PsiFile file = e.getData(LangDataKeys.PSI_FILE);
         DataContext dataContext = e.getDataContext();
 
         final Project project = CommonDataKeys.PROJECT.getData(dataContext);

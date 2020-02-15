@@ -130,13 +130,13 @@
                     class="com.github.setial.intellijjavadocs.action.JavaDocGenerateAction"
                     text="Create JavaDocs for the selected element"
                     description="Generate javadocs for the selected element.">
-                <keyboard-shortcut keymap="$default" first-keystroke="shift alt G"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="shift alt J"/>
             </action>
             <action id="com.github.setial.intellijjavadocs.action.JavaDocsGenerateActionOnEditor"
                     class="com.github.setial.intellijjavadocs.action.JavaDocsGenerateAction"
                     text="Create JavaDocs for all elements"
                     description="Generate javadocs for all elements in the current java file.">
-                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt G"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt J"/>
             </action>
 
             <action id="com.github.setial.intellijjavadocs.action.JavaDocRemoveActionOnEditor"

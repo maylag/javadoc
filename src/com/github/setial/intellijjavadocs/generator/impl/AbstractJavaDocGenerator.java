@@ -8,9 +8,8 @@ import com.github.setial.intellijjavadocs.model.settings.Visibility;
 import com.github.setial.intellijjavadocs.template.DocTemplateManager;
 import com.github.setial.intellijjavadocs.template.DocTemplateProcessor;
 import com.github.setial.intellijjavadocs.utils.JavaDocUtils;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ApplicationNamesInfo;
-import com.intellij.openapi.components.ApplicationComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.pom.PomNamedTarget;
 import com.intellij.psi.PsiElement;
@@ -60,9 +59,9 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
      */
     public AbstractJavaDocGenerator(@NotNull Project project) {
         this.project = project;
-        docTemplateManager = ServiceManager.getService(project, DocTemplateManager.class);
-        docTemplateProcessor = ServiceManager.getService(project, DocTemplateProcessor.class);
-        psiElementFactory = PsiElementFactory.SERVICE.getInstance(project);
+        docTemplateManager = ApplicationManager.getApplication().getComponent(DocTemplateManager.class);
+        docTemplateProcessor = project.getComponent(DocTemplateProcessor.class);
+        psiElementFactory = PsiElementFactory.getInstance(project);
     }
 
     @Nullable
