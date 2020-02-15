@@ -124,7 +124,8 @@ public class JavaDocBuilder {
         }
 
         String startsWithCharacterPattern = "[\\w.,'].*";
-        if (CollectionUtils.isNotEmpty(tag.getDescription()) && Pattern.matches(startsWithCharacterPattern, tag.getDescription().iterator().next())) {
+        if (CollectionUtils.isNotEmpty(tag.getDescription()) && Pattern.matches(startsWithCharacterPattern,
+                tag.getDescription().iterator().next())) {
             builder.append(JavaDocElements.WHITE_SPACE.getPresentation());
         }
         addTagDescription(tag.getDescription());
@@ -183,8 +184,8 @@ public class JavaDocBuilder {
 
     private boolean closeRegularJavaDoc() {
         boolean result = false;
-        if (builder.lastIndexOf(JavaDocElements.LINE_START.getPresentation()) != builder.length() - 1 &&
-                builder.lastIndexOf(JavaDocElements.NEW_LINE.getPresentation()) >= 0) {
+        if (builder.lastIndexOf(JavaDocElements.LINE_START.getPresentation()) != builder.length() - 1
+                && builder.lastIndexOf(JavaDocElements.NEW_LINE.getPresentation()) >= 0) {
             builder.append(JavaDocElements.NEW_LINE.getPresentation());
             builder.append(JavaDocElements.WHITE_SPACE.getPresentation());
             builder.append(JavaDocElements.LINE_START.getPresentation());
@@ -205,8 +206,7 @@ public class JavaDocBuilder {
     private boolean isAcceptedDescription(String description, boolean hasNext) {
         boolean result = false;
         // add any not empty string (it could be blank), but do not add last string if this is a space
-        if ((hasNext && StringUtils.isNotEmpty(description)) ||
-                (!hasNext && !description.matches(" +"))) {
+        if ((hasNext && StringUtils.isNotEmpty(description)) || (!hasNext && !description.matches(" +"))) {
             result = true;
         }
         return result;

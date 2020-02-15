@@ -10,9 +10,13 @@ import java.util.Set;
 public class GeneralSettings {
 
     private Mode mode;
+
     private Set<Level> levels;
+
     private Set<Visibility> visibilities;
+
     private boolean overriddenMethods;
+
     private boolean splittedClassName;
 
     /**

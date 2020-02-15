@@ -71,8 +71,8 @@ public class MethodJavaDocGenerator extends AbstractJavaDocGenerator<PsiMethod> 
     private boolean shouldGenerate(@NotNull PsiMethod element) {
         PsiMethod[] superMethods = element.findSuperMethods();
         JavaDocSettings configuration = JavaDocSettings.getInstance();
-        boolean overriddenMethods = superMethods.length > 0 && configuration != null &&
-                !configuration.getGeneralSettings().isOverriddenMethods();
+        boolean overriddenMethods = superMethods.length > 0 && configuration != null
+                && !configuration.getGeneralSettings().isOverriddenMethods();
         boolean level = configuration != null && configuration.getGeneralSettings().getLevels().contains(Level.METHOD);
         return !level || !overriddenMethods;
     }

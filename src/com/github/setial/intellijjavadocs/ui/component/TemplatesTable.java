@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 public class TemplatesTable extends JBTable {
 
     private List<Entry<String, String>> settings;
+
     private List<String> columnNames;
 
     /**
@@ -103,6 +104,7 @@ public class TemplatesTable extends JBTable {
 
         /**
          * Instantiates a new Table model.
+         *
          * @param columnNamesParam
          */
         public TableModel(List<String> columnNamesParam) {
@@ -167,19 +169,18 @@ public class TemplatesTable extends JBTable {
         }
 
         @Override
-        public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                int row, int column) {
 
             setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
             setForeground(isSelected ? table.getSelectionForeground() : table.getForeground());
 
-            setBorder(hasFocus ?
-                    UIUtil.getTableFocusCellHighlightBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+            setBorder(
+                    hasFocus ? UIUtil.getTableFocusCellHighlightBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
             setText(value == null ? "" : value.toString());
             return this;
         }
 
     }
-
 
 }

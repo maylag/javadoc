@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type Class java doc generator.
@@ -32,13 +33,13 @@ public class ClassJavaDocGenerator extends AbstractJavaDocGenerator<PsiClass> {
     @Override
     protected JavaDoc generateJavaDoc(@NotNull PsiClass element) {
         JavaDocSettings configuration = JavaDocSettings.getInstance();
-        if ((configuration != null && !configuration.getGeneralSettings().getLevels().contains(Level.TYPE)) ||
-                !shouldGenerate(element.getModifierList())) {
+        if ((configuration != null && !configuration.getGeneralSettings().getLevels().contains(Level.TYPE))
+                || !shouldGenerate(element.getModifierList())) {
             return null;
         }
         Template template = getDocTemplateManager().getClassTemplate(element);
         Map<String, Object> params = getDefaultParameters(element);
-        if (!configuration.getGeneralSettings().isSplittedClassName()) {
+        if (!Objects.requireNonNull(configuration).getGeneralSettings().isSplittedClassName()) {
             params.put("name", element.getName());
         }
         String javaDocText = getDocTemplateProcessor().merge(template, params);

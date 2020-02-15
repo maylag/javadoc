@@ -15,6 +15,7 @@ import java.util.Map;
 public class JavaDoc {
 
     private List<String> description;
+
     private Map<String, List<JavaDocTag>> tags;
 
     /**

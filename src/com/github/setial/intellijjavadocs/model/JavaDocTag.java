@@ -13,7 +13,9 @@ import java.util.List;
 public class JavaDocTag {
 
     private String refParam;
+
     private String value;
+
     private List<String> description;
 
     /**

@@ -41,22 +41,34 @@ public class DocTemplateManagerImpl implements DocTemplateManager {
     private static final Logger LOGGER = Logger.getInstance(DocTemplateManagerImpl.class);
 
     private static final String TEMPLATES_PATH = "/templates.xml";
+
     private static final String TEMPLATE = "template";
+
     private static final String REGEXP = "regexp";
+
     private static final String CLASS = "class";
+
     private static final String FIELD = "field";
+
     private static final String METHOD = "method";
+
     private static final String VARIABLES = "variables";
+
     private static final String CONSTRUCTOR = "constructor";
 
     // key : regexp   value: template
     private Map<String, Template> classTemplates = new LinkedHashMap<String, Template>();
+
     private Map<String, Template> fieldTemplates = new LinkedHashMap<String, Template>();
+
     private Map<String, Template> methodTemplates = new LinkedHashMap<String, Template>();
-	private Map<String, Template> constructorTemplates = new LinkedHashMap<String, Template>();
-	private Map<String, Template> variablesTemplates = new LinkedHashMap<String, Template>();
+
+    private Map<String, Template> constructorTemplates = new LinkedHashMap<String, Template>();
+
+    private Map<String, Template> variablesTemplates = new LinkedHashMap<String, Template>();
 
     private Configuration config;
+
     private StringTemplateLoader templateLoader;
 
     /**
@@ -71,22 +83,16 @@ public class DocTemplateManagerImpl implements DocTemplateManager {
     }
 
     @Override
-    public void initComponent()
-    {
-        try
-        {
-            Document document = new SAXBuilder()
-                    .build(DocTemplateProcessor.class.getResourceAsStream
-                            (TEMPLATES_PATH));
+    public void initComponent() {
+        try {
+            Document document = new SAXBuilder().build(DocTemplateProcessor.class.getResourceAsStream(TEMPLATES_PATH));
             Element root = document.getRootElement();
             readTemplates(root, CLASS, classTemplates);
             readTemplates(root, FIELD, fieldTemplates);
             readTemplates(root, METHOD, methodTemplates);
             readTemplates(root, CONSTRUCTOR, constructorTemplates);
             readTemplates(root, VARIABLES, variablesTemplates);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOGGER.error(e);
         }
     }
@@ -188,21 +194,21 @@ public class DocTemplateManagerImpl implements DocTemplateManager {
         setupTemplates(templates, constructorTemplates, CONSTRUCTOR);
     }
 
-	@NotNull
-	@Override
-	public Map<String, String> getVariables() {
-		Map<String, String> templates = new LinkedHashMap<String, String>();
-		for (Entry<String, Template> entry : variablesTemplates.entrySet()) {
-			String template = extractTemplate(entry.getValue());
-			templates.put(entry.getKey(), template);
-		}
-		return templates;
-	}
+    @NotNull
+    @Override
+    public Map<String, String> getVariables() {
+        Map<String, String> templates = new LinkedHashMap<String, String>();
+        for (Entry<String, Template> entry : variablesTemplates.entrySet()) {
+            String template = extractTemplate(entry.getValue());
+            templates.put(entry.getKey(), template);
+        }
+        return templates;
+    }
 
-	@Override
-	public void setVariables(@NotNull Map<String, String> variables) {
-		setupTemplates(variables, variablesTemplates, VARIABLES);
-	}
+    @Override
+    public void setVariables(@NotNull Map<String, String> variables) {
+        setupTemplates(variables, variablesTemplates, VARIABLES);
+    }
 
     @Override
     public void setMethodTemplates(@NotNull Map<String, String> templates) {
@@ -299,14 +305,14 @@ public class DocTemplateManagerImpl implements DocTemplateManager {
     }
 
     /**
-     *
-     * @param templateRegexp   template.xml中的regexp
-     * @param elementName      class or method or contructor or feild or variable
-     * @param templateContent  template.xml中的 content
+     * @param templateRegexp  template.xml中的regexp
+     * @param elementName     class or method or contructor or feild or variable
+     * @param templateContent template.xml中的 content
      * @return
      * @throws IOException
      */
-    private Template createTemplate(String templateRegexp, String elementName, String templateContent) throws IOException {
+    private Template createTemplate(String templateRegexp, String elementName, String templateContent)
+            throws IOException {
         String templateName = normalizeName(elementName + templateRegexp);
         if (templateLoader.findTemplateSource(templateName) != null) {
             config.clearTemplateCache();

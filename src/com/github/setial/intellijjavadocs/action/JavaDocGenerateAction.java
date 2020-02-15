@@ -25,9 +25,11 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Java doc generate action.
@@ -64,7 +66,7 @@ public class JavaDocGenerateAction extends BaseAction {
      */
     @Override
     public void actionPerformed(AnActionEvent e) {
-        DumbService dumbService = DumbService.getInstance(e.getProject());
+        DumbService dumbService = DumbService.getInstance(Objects.requireNonNull(e.getProject()));
         if (dumbService.isDumb()) {
             dumbService.showDumbModeNotification("Javadocs plugin is not available during indexing");
             return;
@@ -85,21 +87,18 @@ public class JavaDocGenerateAction extends BaseAction {
             return;
         }
         List<PsiElement> elements = new LinkedList<PsiElement>();
-        PsiElement firstElement = getJavaElement(PsiUtilCore.getElementAtOffset(file, startPosition));
-        if (firstElement != null) {
-            PsiElement element = firstElement;
-            do {
-                if (isAllowedElementType(element)) {
-                    elements.add(element);
-                }
-                element = element.getNextSibling();
-                if (element == null) {
-                    break;
-                }
-            } while (isElementInSelection(element, startPosition, endPosition));
-        }
-        for (PsiElement element : elements) {
-            processElement(element);
+        PsiElement element = getJavaElement(PsiUtilCore.getElementAtOffset(file, startPosition));
+        do {
+            if (isAllowedElementType(element)) {
+                elements.add(element);
+            }
+            element = element.getNextSibling();
+            if (element == null) {
+                break;
+            }
+        } while (isElementInSelection(element, startPosition, endPosition));
+        for (PsiElement ele : elements) {
+            processElement(ele);
         }
     }
 
@@ -112,14 +111,14 @@ public class JavaDocGenerateAction extends BaseAction {
         JavaDocGenerator generator = getGenerator(element);
         if (generator != null) {
             try {
-                @SuppressWarnings("unchecked")
-                PsiDocComment javaDoc = generator.generate(element);
+                @SuppressWarnings("unchecked") PsiDocComment javaDoc = generator.generate(element);
                 if (javaDoc != null) {
                     writer.write(javaDoc, element);
                 }
             } catch (TemplateNotFoundException e) {
                 LOGGER.warn(e);
-                String message = "Javadocs plugin is not available. Can not find suitable template for the element:\n{0}";
+                String message
+                        = "Javadocs plugin is not available. Can not find suitable template for the element:\n{0}";
                 Messages.showWarningDialog(MessageFormat.format(message, e.getMessage()), "Javadocs plugin");
             }
         }
@@ -170,8 +169,7 @@ public class JavaDocGenerateAction extends BaseAction {
     private boolean isElementInSelection(@NotNull PsiElement element, int startPosition, int endPosition) {
         boolean result = false;
         int elementTextOffset = element.getTextRange().getStartOffset();
-        if (elementTextOffset >= startPosition &&
-                elementTextOffset <= endPosition) {
+        if (elementTextOffset >= startPosition && elementTextOffset <= endPosition) {
             result = true;
         }
         return result;
@@ -179,9 +177,7 @@ public class JavaDocGenerateAction extends BaseAction {
 
     private boolean isAllowedElementType(@NotNull PsiElement element) {
         boolean result = false;
-        if (element instanceof PsiClass ||
-                element instanceof PsiField ||
-                element instanceof PsiMethod) {
+        if (element instanceof PsiClass || element instanceof PsiField || element instanceof PsiMethod) {
             result = true;
         }
         return result;

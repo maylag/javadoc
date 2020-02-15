@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements JavaDocGenerator<T> {
 
-    private final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private final String DATE_FORMAT = "yyyy/MM/dd";
 
     private final String VERSION = "VERSION";
 
@@ -48,7 +48,9 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
     private final Project project;
 
     private DocTemplateManager docTemplateManager;
+
     private DocTemplateProcessor docTemplateProcessor;
+
     private PsiElementFactory psiElementFactory;
 
     /**
@@ -134,21 +136,23 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
      * @return the boolean
      */
     protected boolean shouldGenerate(PsiModifierList modifiers) {
-        return checkModifiers(modifiers, PsiModifier.PUBLIC, Visibility.PUBLIC) ||
-                checkModifiers(modifiers, PsiModifier.PROTECTED, Visibility.PROTECTED) ||
-                checkModifiers(modifiers, PsiModifier.PACKAGE_LOCAL, Visibility.DEFAULT) ||
-                checkModifiers(modifiers, PsiModifier.PRIVATE, Visibility.PRIVATE);
+        return checkModifiers(modifiers, PsiModifier.PUBLIC, Visibility.PUBLIC) || checkModifiers(modifiers,
+                PsiModifier.PROTECTED, Visibility.PROTECTED) || checkModifiers(modifiers, PsiModifier.PACKAGE_LOCAL,
+                Visibility.DEFAULT) || checkModifiers(modifiers, PsiModifier.PRIVATE, Visibility.PRIVATE);
     }
 
     private String getCalendarValue(final Calendar calendar, final int field) {
         int val = calendar.get(field);
-        if (field == Calendar.MONTH) val++;
+        if (field == Calendar.MONTH) {
+            val++;
+        }
         final String result = Integer.toString(val);
         if (result.length() == 1) {
             return "0" + result;
         }
         return result;
     }
+
     /**
      * Gets default parameters used to build template.
      *
@@ -193,7 +197,7 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
 
         // 处理变量
         for (Map.Entry<String, String> variable : getDocTemplateManager().getVariables().entrySet()) {
-            params.put(variable.getKey(),variable.getValue());
+            params.put(variable.getKey(), variable.getValue());
         }
         // 处理version
         String version = (String) params.get(VERSION);
@@ -228,8 +232,8 @@ public abstract class AbstractJavaDocGenerator<T extends PsiElement> implements 
 
     private boolean checkModifiers(PsiModifierList modifiers, String modifier, Visibility visibility) {
         JavaDocSettings configuration = JavaDocSettings.getInstance();
-        return modifiers != null && modifiers.hasModifierProperty(modifier) && configuration != null &&
-                configuration.getGeneralSettings().getVisibilities().contains(visibility);
+        return modifiers != null && modifiers.hasModifierProperty(modifier) && configuration != null
+                && configuration.getGeneralSettings().getVisibilities().contains(visibility);
     }
 
     /**

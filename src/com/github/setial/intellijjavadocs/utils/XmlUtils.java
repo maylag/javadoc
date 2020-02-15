@@ -130,7 +130,8 @@ public class XmlUtils {
      * @param type       the type
      * @return the values
      */
-    public static <T extends Enum<T>> Set<T> getValues(Element element, String parentName, String childName, Class<T> type) {
+    public static <T extends Enum<T>> Set<T> getValues(Element element, String parentName, String childName,
+            Class<T> type) {
         Set<T> result = new LinkedHashSet<T>();
         Element root = element.getChild(parentName);
         for (Object value : root.getChildren(childName)) {

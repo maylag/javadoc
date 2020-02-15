@@ -203,13 +203,12 @@
         </template>
     </constructor>
 
-
     <variables>
         <template regexp="VERSION">
-            ONIP SOABean DTrans V600R001C10
+            RCM Feature Engine 3.0.0
         </template>
         <template regexp="BASE_VERSION">
-            ONIP SOABean DTrans V600R001C00
+            RCM Feature Engine 3.0.0
         </template>
     </variables>
 

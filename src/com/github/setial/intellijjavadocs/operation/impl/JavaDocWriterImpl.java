@@ -66,7 +66,8 @@ public class JavaDocWriterImpl implements JavaDocWriter {
         RunResult result = command.execute();
         if (result.hasException()) {
             LOGGER.error(result.getThrowable());
-            Messages.showErrorDialog("Javadocs plugin is not available, cause: " + result.getThrowable().getMessage(), "Javadocs plugin");
+            Messages.showErrorDialog("Javadocs plugin is not available, cause: " + result.getThrowable().getMessage(),
+                    "Javadocs plugin");
         }
     }
 
@@ -84,7 +85,8 @@ public class JavaDocWriterImpl implements JavaDocWriter {
         RunResult result = command.execute();
         if (result.hasException()) {
             LOGGER.error(result.getThrowable());
-            Messages.showErrorDialog("Javadocs plugin is not available, cause: " + result.getThrowable().getMessage(), "Javadocs plugin");
+            Messages.showErrorDialog("Javadocs plugin is not available, cause: " + result.getThrowable().getMessage(),
+                    "Javadocs plugin");
         }
     }
 
@@ -96,6 +98,7 @@ public class JavaDocWriterImpl implements JavaDocWriter {
     private static class WriteJavaDocActionImpl extends WriteCommandAction {
 
         private PsiDocComment javaDoc;
+
         private PsiElement element;
 
         /**
@@ -105,10 +108,7 @@ public class JavaDocWriterImpl implements JavaDocWriter {
          * @param element the element
          */
         protected WriteJavaDocActionImpl(@NotNull PsiDocComment javaDoc, @NotNull PsiElement element) {
-            super(
-                    element.getProject(),
-                    WRITE_JAVADOC_COMMAND_NAME,
-                    WRITE_JAVADOC_COMMAND_GROUP,
+            super(element.getProject(), WRITE_JAVADOC_COMMAND_NAME, WRITE_JAVADOC_COMMAND_GROUP,
                     element.getContainingFile());
             this.javaDoc = javaDoc;
             this.element = element;
@@ -153,10 +153,7 @@ public class JavaDocWriterImpl implements JavaDocWriter {
          * @param element the element
          */
         protected RemoveJavaDocActionImpl(PsiElement element) {
-            super(
-                    element.getProject(),
-                    WRITE_JAVADOC_COMMAND_NAME,
-                    WRITE_JAVADOC_COMMAND_GROUP,
+            super(element.getProject(), WRITE_JAVADOC_COMMAND_NAME, WRITE_JAVADOC_COMMAND_GROUP,
                     element.getContainingFile());
             this.element = element;
         }

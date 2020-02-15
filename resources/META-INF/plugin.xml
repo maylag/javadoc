@@ -130,26 +130,26 @@
               class="com.github.setial.intellijjavadocs.action.JavaDocGenerateAction"
               text="Create JavaDocs for the selected element"
               description="Generate javadocs for the selected element.">
-        <keyboard-shortcut keymap="$default" first-keystroke="shift alt G"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="alt J"/>
       </action>
       <action id="com.github.setial.intellijjavadocs.action.JavaDocsGenerateActionOnEditor"
               class="com.github.setial.intellijjavadocs.action.JavaDocsGenerateAction"
               text="Create JavaDocs for all elements"
               description="Generate javadocs for all elements in the current java file.">
-        <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt G"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="shift alt G"/>
       </action>
 
       <action id="com.github.setial.intellijjavadocs.action.JavaDocRemoveActionOnEditor"
               class="com.github.setial.intellijjavadocs.action.JavaDocRemoveAction"
               text="Remove JavaDocs for the selected element"
               description="Remove javadocs for the selected element.">
-        <keyboard-shortcut keymap="$default" first-keystroke="shift alt Z"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="alt Z"/>
       </action>
       <action id="com.github.setial.intellijjavadocs.action.JavaDocsRemoveActionOnEditor"
               class="com.github.setial.intellijjavadocs.action.JavaDocsRemoveAction"
               text="Remove JavaDocs for all elements"
               description="Remove javadocs for all elements in the current java file.">
-        <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Z"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="shift alt Z"/>
       </action>
       <separator/>
       <add-to-group group-id="GenerateGroup" anchor="last"/>
@@ -168,10 +168,10 @@
       <add-to-group group-id="CodeFormatGroup" anchor="last" />
       <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
     </group>
-    <group id="MyEditorActions" text="My Editor Actions">
-      <action id="MyEditorEnterAction" class="com.github.setial.intellijjavadocs.action.MyEnterJavaDocAction" text="Enter"/>
-      <add-to-group group-id="EditorActions" anchor="first" />
-    </group>
+<!--    <group id="MyEditorActions" text="My Editor Actions">-->
+<!--      <action id="MyEditorEnterAction" class="com.github.setial.intellijjavadocs.action.MyEnterJavaDocAction" text="Enter"/>-->
+<!--      <add-to-group group-id="EditorActions" anchor="first" />-->
+<!--    </group>-->
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">

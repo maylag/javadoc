@@ -11,10 +11,14 @@ import java.util.Map;
 public class TemplateSettings {
 
     private Map<String, String> classTemplates = new LinkedHashMap<String, String>();
+
     private Map<String, String> fieldTemplates = new LinkedHashMap<String, String>();
+
     private Map<String, String> methodTemplates = new LinkedHashMap<String, String>();
+
     private Map<String, String> constructorTemplates = new LinkedHashMap<String, String>();
-	private Map<String, String> variables = new LinkedHashMap<String, String>();
+
+    private Map<String, String> variables = new LinkedHashMap<String, String>();
 
     /**
      * Gets class templates.
@@ -88,21 +92,21 @@ public class TemplateSettings {
         this.methodTemplates = methodTemplates;
     }
 
-	/**
-	 * Gets variables.
-	 *
-	 * @return the variables
-	 */
-	public Map<String, String> getVariables() {
-		return variables;
-	}
+    /**
+     * Gets variables.
+     *
+     * @return the variables
+     */
+    public Map<String, String> getVariables() {
+        return variables;
+    }
 
-	/**
-	 * Sets variables.
-	 *
-	 * @param variables the variables
-	 */
-	public void setVariables(Map<String, String> variables) {
-		this.variables = variables;
-	}
+    /**
+     * Sets variables.
+     *
+     * @param variables the variables
+     */
+    public void setVariables(Map<String, String> variables) {
+        this.variables = variables;
+    }
 }

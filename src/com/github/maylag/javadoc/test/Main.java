@@ -1,5 +1,7 @@
 package com.github.maylag.javadoc.test;
 
+import org.apache.commons.lang3.exception.ExceptionContext;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -99,20 +101,14 @@ public class Main {
     }
 
     /**
-     * The interface Testintf.
-     *
-     * @since 2017-09-03 14:01:30
+     * 
      */
     public interface testintf
     {
-        /**
-         * Calc int.
-         *
-         * @param a the a
-         * @param b the b
-         * @return the int
-         */
-        public int calc(int a, int b);
+/**
+ *
+ */
+        public <T, V> int calc(int a, int b, T t, V v ) throws Exception;
     }
 
     /**

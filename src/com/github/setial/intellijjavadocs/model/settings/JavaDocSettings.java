@@ -11,8 +11,7 @@ import java.io.Serializable;
  *
  * @author Sergey Timofiychuk
  */
-public class JavaDocSettings implements Serializable
-{
+public class JavaDocSettings implements Serializable {
     private static final String MODE = "MODE";
 
     private static final String LEVELS = "LEVELS";
@@ -58,22 +57,18 @@ public class JavaDocSettings implements Serializable
     /**
      * Instantiates a new Java doc settings object.
      */
-    private JavaDocSettings()
-    {
+    private JavaDocSettings() {
     }
 
-    private static class NestClass
-    {
+    private static class NestClass {
         private static JavaDocSettings instance;
 
-        static
-        {
+        static {
             instance = new JavaDocSettings();
         }
     }
 
-    public static JavaDocSettings getInstance()
-    {
+    public static JavaDocSettings getInstance() {
         return NestClass.instance;
     }
 
@@ -82,36 +77,23 @@ public class JavaDocSettings implements Serializable
      *
      * @param element the element
      */
-    public void loadJavaDocSettingsByElement(Element element)
-    {
+    public void loadJavaDocSettingsByElement(Element element) {
         Element general = element.getChild(GENERAL);
-        if (general != null)
-        {
-            generalSettings
-                    .setMode(XmlUtils.getValue(general, MODE, Mode.class));
-            generalSettings.setOverriddenMethods(Boolean.parseBoolean(
-                    general.getChild(OVERRIDDEN_METHODS).getValue()));
-            generalSettings.setSplittedClassName(Boolean.parseBoolean(
-                    general.getChild(SPLITTED_CLASS_NAME).getValue()));
-            generalSettings.setLevels(
-                    XmlUtils.getValues(general, LEVELS, LEVEL, Level.class));
-            generalSettings.setVisibilities(
-                    XmlUtils.getValues(general, VISIBILITIES, VISIBILITY,
-                            Visibility.class));
+        if (general != null) {
+            generalSettings.setMode(XmlUtils.getValue(general, MODE, Mode.class));
+            generalSettings.setOverriddenMethods(Boolean.parseBoolean(general.getChild(OVERRIDDEN_METHODS).getValue()));
+            generalSettings.setSplittedClassName(
+                    Boolean.parseBoolean(general.getChild(SPLITTED_CLASS_NAME).getValue()));
+            generalSettings.setLevels(XmlUtils.getValues(general, LEVELS, LEVEL, Level.class));
+            generalSettings.setVisibilities(XmlUtils.getValues(general, VISIBILITIES, VISIBILITY, Visibility.class));
         }
         Element templates = element.getChild(TEMPLATES);
-        if (templates != null)
-        {
-            templateSettings.setClassTemplates(
-                    XmlUtils.getMap(templates, CLASSES, CLASS));
-            templateSettings.setConstructorTemplates(
-                    XmlUtils.getMap(templates, CONSTRUCTORS, CONSTRUCTOR));
-            templateSettings.setFieldTemplates(
-                    XmlUtils.getMap(templates, FIELDS, FIELD));
-            templateSettings.setMethodTemplates(
-                    XmlUtils.getMap(templates, METHODS, METHOD));
-            templateSettings.setVariables(
-                    XmlUtils.getMap(templates, VARIABLES, VARIABLE));
+        if (templates != null) {
+            templateSettings.setClassTemplates(XmlUtils.getMap(templates, CLASSES, CLASS));
+            templateSettings.setConstructorTemplates(XmlUtils.getMap(templates, CONSTRUCTORS, CONSTRUCTOR));
+            templateSettings.setFieldTemplates(XmlUtils.getMap(templates, FIELDS, FIELD));
+            templateSettings.setMethodTemplates(XmlUtils.getMap(templates, METHODS, METHOD));
+            templateSettings.setVariables(XmlUtils.getMap(templates, VARIABLES, VARIABLE));
         }
     }
 
@@ -120,37 +102,28 @@ public class JavaDocSettings implements Serializable
      *
      * @param root the root
      */
-    public void addToDom(Element root)
-    {
+    public void addToDom(Element root) {
         Element general = new Element(GENERAL);
         root.addContent(general);
 
-        if (generalSettings.getMode() != null)
-        {
-            general.addContent(XmlUtils.getElement(MODE,
-                    generalSettings.getMode().toString()));
-            general.addContent(XmlUtils.getElement(OVERRIDDEN_METHODS,
-                    String.valueOf(generalSettings.isOverriddenMethods())));
-            general.addContent(XmlUtils.getElement(SPLITTED_CLASS_NAME,
-                    String.valueOf(generalSettings.isSplittedClassName())));
-            general.addContent(XmlUtils.getElement(LEVELS, LEVEL,
-                    generalSettings.getLevels()));
-            general.addContent(XmlUtils.getElement(VISIBILITIES, VISIBILITY,
-                    generalSettings.getVisibilities()));
+        if (generalSettings.getMode() != null) {
+            general.addContent(XmlUtils.getElement(MODE, generalSettings.getMode().toString()));
+            general.addContent(
+                    XmlUtils.getElement(OVERRIDDEN_METHODS, String.valueOf(generalSettings.isOverriddenMethods())));
+            general.addContent(
+                    XmlUtils.getElement(SPLITTED_CLASS_NAME, String.valueOf(generalSettings.isSplittedClassName())));
+            general.addContent(XmlUtils.getElement(LEVELS, LEVEL, generalSettings.getLevels()));
+            general.addContent(XmlUtils.getElement(VISIBILITIES, VISIBILITY, generalSettings.getVisibilities()));
         }
 
         Element templates = new Element(TEMPLATES);
         root.addContent(templates);
-        templates.addContent(XmlUtils.getElement(CLASSES, CLASS,
-                templateSettings.getClassTemplates()));
-        templates.addContent(XmlUtils.getElement(CONSTRUCTORS, CONSTRUCTOR,
-                templateSettings.getConstructorTemplates()));
-        templates.addContent(XmlUtils.getElement(METHODS, METHOD,
-                templateSettings.getMethodTemplates()));
-        templates.addContent(XmlUtils.getElement(FIELDS, FIELD,
-                templateSettings.getFieldTemplates()));
-        templates.addContent(XmlUtils.getElement(VARIABLES, VARIABLE,
-                templateSettings.getVariables()));
+        templates.addContent(XmlUtils.getElement(CLASSES, CLASS, templateSettings.getClassTemplates()));
+        templates.addContent(
+                XmlUtils.getElement(CONSTRUCTORS, CONSTRUCTOR, templateSettings.getConstructorTemplates()));
+        templates.addContent(XmlUtils.getElement(METHODS, METHOD, templateSettings.getMethodTemplates()));
+        templates.addContent(XmlUtils.getElement(FIELDS, FIELD, templateSettings.getFieldTemplates()));
+        templates.addContent(XmlUtils.getElement(VARIABLES, VARIABLE, templateSettings.getVariables()));
     }
 
     /**
@@ -158,8 +131,7 @@ public class JavaDocSettings implements Serializable
      *
      * @return the general settings
      */
-    public GeneralSettings getGeneralSettings()
-    {
+    public GeneralSettings getGeneralSettings() {
         return generalSettings;
     }
 
@@ -168,30 +140,21 @@ public class JavaDocSettings implements Serializable
      *
      * @return the template settings
      */
-    public TemplateSettings getTemplateSettings()
-    {
+    public TemplateSettings getTemplateSettings() {
         return templateSettings;
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         JavaDocSettings result = new JavaDocSettings();
-        try
-        {
-            if (this.generalSettings != null)
-            {
-                result.generalSettings = (GeneralSettings) BeanUtils
-                        .cloneBean(this.generalSettings);
+        try {
+            if (this.generalSettings != null) {
+                result.generalSettings = (GeneralSettings) BeanUtils.cloneBean(this.generalSettings);
             }
-            if (this.templateSettings != null)
-            {
-                result.templateSettings = (TemplateSettings) BeanUtils
-                        .cloneBean(this.templateSettings);
+            if (this.templateSettings != null) {
+                result.templateSettings = (TemplateSettings) BeanUtils.cloneBean(this.templateSettings);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new CloneNotSupportedException(e.getMessage());
         }
         return result;

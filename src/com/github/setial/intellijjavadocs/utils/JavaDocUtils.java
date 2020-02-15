@@ -129,10 +129,7 @@ public class JavaDocUtils {
         String docTagRefParam = findDocTagRefParam(docTag);
         String docTagValue = findDocTagValue(docTag);
         List<String> docTagDescription = findDocTagDescription(docTag, docTagRefParam, docTagValue);
-        return new JavaDocTag(
-                docTagRefParam,
-                docTagValue,
-                docTagDescription);
+        return new JavaDocTag(docTagRefParam, docTagValue, docTagDescription);
     }
 
     /**
@@ -143,9 +140,7 @@ public class JavaDocUtils {
      */
     @NotNull
     public static JavaDoc createJavaDoc(@NotNull PsiDocComment docComment) {
-        return new JavaDoc(
-                findDocDescription(docComment),
-                findDocTags(docComment));
+        return new JavaDoc(findDocDescription(docComment), findDocTags(docComment));
     }
 
     /**
@@ -194,8 +189,7 @@ public class JavaDocUtils {
     public static String findDocTagRefParam(@NotNull PsiDocTag docTag) {
         String refParam = null;
         for (PsiElement element : docTag.getDataElements()) {
-            if (element instanceof PsiDocParamRef ||
-                    element instanceof PsiDocMethodOrFieldRef) {
+            if (element instanceof PsiDocParamRef || element instanceof PsiDocMethodOrFieldRef) {
                 refParam = element.getText();
                 break;
             }
@@ -230,7 +224,8 @@ public class JavaDocUtils {
      * @return the javadoc's tag descriptions
      */
     @NotNull
-    public static List<String> findDocTagDescription(@NotNull PsiDocTag docTag, String docTagRefParam, String docTagValue) {
+    public static List<String> findDocTagDescription(@NotNull PsiDocTag docTag, String docTagRefParam,
+            String docTagValue) {
         List<String> descriptions = new LinkedList<String>();
         List<PsiElement> elements = new LinkedList<PsiElement>(Arrays.asList(docTag.getDataElements()));
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
@@ -247,7 +242,7 @@ public class JavaDocUtils {
     }
 
     private static void removeValueIfAssignableType(String value, Class<? extends PsiElement> valueType,
-                                                    Iterator<PsiElement> iterator, PsiElement element) {
+            Iterator<PsiElement> iterator, PsiElement element) {
         if (value != null && element.getClass().isAssignableFrom(valueType) && element.getText().equals(value)) {
             iterator.remove();
         }
@@ -274,8 +269,7 @@ public class JavaDocUtils {
     private static JavaDocTag findOldTag(List<JavaDocTag> oldTagsEntry, String value, String refParam) {
         JavaDocTag result = null;
         for (JavaDocTag oldTag : oldTagsEntry) {
-            if (StringUtils.equals(oldTag.getValue(), value) &&
-                    StringUtils.equals(oldTag.getRefParam(), refParam)) {
+            if (StringUtils.equals(oldTag.getValue(), value) && StringUtils.equals(oldTag.getRefParam(), refParam)) {
                 result = oldTag;
                 break;
             }

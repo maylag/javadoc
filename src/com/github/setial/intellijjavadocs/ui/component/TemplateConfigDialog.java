@@ -28,7 +28,9 @@ public class TemplateConfigDialog extends DialogWrapper {
     private Entry<String, String> model;
 
     private JTextField nameField;
+
     private JTextArea templateField;
+
     private java.util.List<String> columnNames;
 
     /**
@@ -71,7 +73,8 @@ public class TemplateConfigDialog extends DialogWrapper {
             nameField.setText(model.getKey());
         }
         JPanel namePanel = new JPanel(new BorderLayout());
-        namePanel.setBorder(IdeBorderFactory.createTitledBorder(columnNamesIter.next(), false, new Insets(0, 0, 10, 0)));
+        namePanel.setBorder(
+                IdeBorderFactory.createTitledBorder(columnNamesIter.next(), false, new Insets(0, 0, 10, 0)));
         namePanel.add(nameField, BorderLayout.CENTER);
 
         templateField = new JTextArea();
@@ -79,7 +82,8 @@ public class TemplateConfigDialog extends DialogWrapper {
             templateField.setText(model.getValue());
         }
         JPanel templatePanel = new JPanel(new BorderLayout());
-        templatePanel.setBorder(IdeBorderFactory.createTitledBorder(columnNamesIter.next(), false, new Insets(0, 0, 0, 0)));
+        templatePanel.setBorder(
+                IdeBorderFactory.createTitledBorder(columnNamesIter.next(), false, new Insets(0, 0, 0, 0)));
         templatePanel.add(templateField, BorderLayout.CENTER);
 
         panel.add(namePanel, getConstraints(0, 0));
@@ -88,7 +92,10 @@ public class TemplateConfigDialog extends DialogWrapper {
     }
 
     private GridConstraints getConstraints(int row, int column) {
-        return new GridConstraints(row, column, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false);
+        return new GridConstraints(row, column, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0,
+                false);
     }
 
 }

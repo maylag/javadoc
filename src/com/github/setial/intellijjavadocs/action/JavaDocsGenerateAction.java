@@ -24,6 +24,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Java docs generate action.
@@ -48,7 +49,7 @@ public class JavaDocsGenerateAction extends JavaDocGenerateAction implements Dum
      */
     @Override
     public void actionPerformed(AnActionEvent e) {
-        DumbService dumbService = DumbService.getInstance(e.getProject());
+        DumbService dumbService = DumbService.getInstance(Objects.requireNonNull(e.getProject()));
         if (dumbService.isDumb()) {
             dumbService.showDumbModeNotification("Javadocs plugin is not available during indexing");
             return;
@@ -66,8 +67,8 @@ public class JavaDocsGenerateAction extends JavaDocGenerateAction implements Dum
         } else if (project != null && files != null) {
             processFiles(files, project);
         } else {
-            LOGGER.error("Cannot get com.intellij.openapi.editor.Editor, com.intellij.openapi.project.Project, " +
-                    "com.intellij.openapi.vfs.VirtualFile");
+            LOGGER.error("Cannot get com.intellij.openapi.editor.Editor, com.intellij.openapi.project.Project, "
+                    + "com.intellij.openapi.vfs.VirtualFile");
             Messages.showErrorDialog("Javadocs plugin is not available", "Javadocs plugin");
         }
 
@@ -90,10 +91,9 @@ public class JavaDocsGenerateAction extends JavaDocGenerateAction implements Dum
     }
 
     private void processFile(PsiFile file) {
-        List<PsiElement> elements = new LinkedList<PsiElement>();
         // Find all class elements
         List<PsiClass> classElements = getClasses(file);
-        elements.addAll(classElements);
+        List<PsiElement> elements = new LinkedList<>(classElements);
         for (PsiClass classElement : classElements) {
             elements.addAll(PsiTreeUtil.getChildrenOfTypeAsList(classElement, PsiMethod.class));
             elements.addAll(PsiTreeUtil.getChildrenOfTypeAsList(classElement, PsiField.class));
@@ -127,9 +127,8 @@ public class JavaDocsGenerateAction extends JavaDocGenerateAction implements Dum
                 return;
             }
         }
-        if (files != null && containsJavaFiles(files)) {
+        if (containsJavaFiles(files)) {
             presentation.setEnabled(true);
-            return;
         }
     }
 
